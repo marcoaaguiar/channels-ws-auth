@@ -39,9 +39,16 @@ htmlcov
 # Pycharm/Intellij
 .idea
 
+# VS Code
+.vscode
+.history
+
 # Complexity
 output/*.html
 output/*/index.html
 
 # Sphinx
 docs/_build
+
+# DB
+*.sqlite3
