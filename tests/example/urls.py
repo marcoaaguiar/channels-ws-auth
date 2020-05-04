@@ -18,6 +18,6 @@ from django.contrib import admin
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'', include('channels_ws_auth.urls', namespace='channels_ws_auth')),
+    url(r"^admin/", admin.site.urls),
+    url(r"", include("channels_ws_auth.urls", namespace="channels_ws_auth")),
 ]
