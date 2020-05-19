@@ -1,6 +1,6 @@
-##Example Project for channels_ws_auth
+## Example Project for channels_ws_auth
 
-This example is provided as a convenience feature to allow potential users to try the app straight from the app repo without having to create a django project.
+This example is provided as a convenience feature to allow potential users to try the app straight from the app repo without having to create a Django project.
 
 It can also be used to develop the app in place.
 

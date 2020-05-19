@@ -1,6 +1,7 @@
 import logging
 from urllib.parse import parse_qs
 
+from asgiref.sync import sync_to_async
 from channels.auth import UserLazyObject
 from channels.db import database_sync_to_async
 from channels.middleware import BaseMiddleware
@@ -11,9 +12,7 @@ from .models import WSAuthTicket
 LOGGER = logging.getLogger(__name__)
 
 
-@database_sync_to_async
-def validate_key(key, tenant):
-    user = None
+def validate_key(key):
     try:
         ticket = WSAuthTicket.objects.select_related("user").get(key=key)
     except WSAuthTicket.DoesNotExist:
@@ -24,21 +23,29 @@ def validate_key(key, tenant):
         else:
             LOGGER.info("Expired ticket %s", key)
         ticket.delete()
-    return user
+    return user or AnonymousUser()
 
 
-class WSTicketAuthMiddleware(BaseMiddleware):
+class WSAuthMiddleware(BaseMiddleware):
+    """
+    WebSocket validation middlewar
+    """
+
     def populate_scope(self, scope):
+        """
+        Insert a UserLazyObject in the scope to be
+        later resovled with the proper user
+        """
         if "user" not in scope:
             scope["user"] = UserLazyObject()
 
-    async def resolve_scope(self, scope):
-        scope["user"]._wrapped = AnonymousUser()  # pylint: disable=protected-access
+    def validate_key(self, key):
+        return validate_key(key)
 
+    async def resolve_scope(self, scope):
+        scope["user"]._wrapped = AnonymousUser()
         if "query_string" in scope:
             query_string = parse_qs(scope["query_string"].decode())
             if "ticket" in query_string and len(query_string["ticket"]) == 1:
                 key = query_string["ticket"][0]
-                user = await validate_key(key, scope["tenant"])
-                if user:
-                    scope["user"]._wrapped = user  # pylint: disable=protected-access
+                scope["user"]._wrapped = await sync_to_async(self.validate_key)(key)

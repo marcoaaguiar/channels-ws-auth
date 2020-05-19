@@ -20,12 +20,6 @@ import channels_ws_auth.settings as app_settings
 from channels_ws_auth.models import WSAuthTicket
 
 
-@pytest.fixture
-@pytest.mark.django_db
-def ticket(user):
-    return WSAuthTicket.objects.create(user=user)
-
-
 @pytest.mark.django_db
 def test_require_user():
     with pytest.raises(IntegrityError):
