@@ -1,17 +1,15 @@
-from unittest.mock import MagicMock
+import time
+import uuid
 
-import mock
 import pytest
 from channels.auth import UserLazyObject
+from channels.db import database_sync_to_async
 from channels.generic.websocket import WebsocketConsumer
 from channels.testing import WebsocketCommunicator
+from django.contrib.auth.models import AnonymousUser
 
 from channels_ws_auth.middleware import WSAuthMiddleware
-from django.contrib.auth.models import AnonymousUser
-import uuid
-import time
 from channels_ws_auth.models import WSAuthTicket
-from channels.db import database_sync_to_async
 
 
 @pytest.fixture
