@@ -1,15 +1,18 @@
 # Config file for automatic testing at travis-ci.org
 language: python
-
-python:
-  - "3.8"
-
-env:
-  - TOX_ENV=clean
-  - TOX_ENV=py38-django-30
-  - TOX_ENV=py37-django-30
-  - TOX_ENV=py38-django-22
-  - TOX_ENV=py37-django-22
+python: 3.8
+matrix:
+  include:
+    - python: 3.8
+      env: TOX_ENV=clean
+    - python: 3.8
+      env: TOX_ENV=py38-django-30
+    - python: 3.8
+      env: TOX_ENV=py38-django-22
+    - python: 3.7
+      env: TOX_ENV=py37-django-30
+    - python: 3.7
+      env: TOX_ENV=py37-django-22
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
