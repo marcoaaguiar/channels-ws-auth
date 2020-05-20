@@ -5,27 +5,23 @@ language: python
 python:
   - "3.8"
 
-env: 
+env:
   - TOX_ENV=clean
   - TOX_ENV=py38-django-30
-  - TOX_ENV=py37-django-30
-  - TOX_ENV=py38-django-22
-  - TOX_ENV=py37-django-22
-
-matrix:
-  fast_finish: true
+  # - TOX_ENV=py37-django-30
+  # - TOX_ENV=py38-django-22
+  # - TOX_ENV=py37-django-22
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: 
+install:
   - pip install -r requirements.txt
   - pip install -r requirements_test.txt
 
-
 # command to run tests using coverage, e.g. python setup.py test
-script: 
+script:
   - python ./manage.py makemigrations
   - python ./manage.py migrate
   - tox -e $TOX_ENV
 
 after_success:
-  - codecov -e TOX_ENV
+  - codecov -e $TOX_ENV
