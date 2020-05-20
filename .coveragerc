@@ -5,6 +5,7 @@ branch = true
 omit =
     *site-packages*
     *tests*
+    *example*
     *.tox*
 show_missing = True
 exclude_lines =

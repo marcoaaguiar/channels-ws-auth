@@ -6,5 +6,7 @@ codecov>=2.0.0
 
 
 # Additional test requirements go here
+pytest
+pytest-cov
 pytest-django
 pytest-asyncio
