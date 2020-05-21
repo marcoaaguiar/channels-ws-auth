@@ -41,14 +41,15 @@ if sys.argv[-1] == 'tag':
     os.system("git push --tags")
     sys.exit()
 
-readme = open('README.rst').read()
-history = open('HISTORY.rst').read().replace('.. :changelog:', '')
+readme = open('README.md').read()
+history = open('HISTORY.md').read().replace('.. :changelog:', '')
 
 setup(
     name='channels-ws-auth',
     version=version,
-    description="""A simle and efficient WebSocket Authentication implementation for Django Channels""",
+    description="""WebSocket Authentication implementation for Django Channels""",
     long_description=readme + '\n\n' + history,
+    long_description_content_type='text/markdown',
     author='Marco Aurelio de Aguiar',
     author_email='marco.aguiar@suridev.com',
     url='https://github.com/marcoaaguiar/channels-ws-auth',
