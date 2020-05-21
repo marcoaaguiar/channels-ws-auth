@@ -1,5 +1,6 @@
 import time
 import uuid
+from datetime import timedelta
 
 import pytest
 from channels.auth import UserLazyObject
@@ -7,7 +8,9 @@ from channels.db import database_sync_to_async
 from channels.generic.websocket import WebsocketConsumer
 from channels.testing import WebsocketCommunicator
 from django.contrib.auth.models import AnonymousUser
+from django.utils import timezone
 
+import channels_ws_auth.settings as app_settings
 from channels_ws_auth.middleware import WSAuthMiddleware
 from channels_ws_auth.models import WSAuthTicket
 
@@ -29,6 +32,19 @@ def populated_scope(ws_auth_middleware):
 def test_validate_key(ticket, user, ws_auth_middleware):
     ticket_user = ws_auth_middleware.validate_key(key=ticket.key)
     assert ticket_user == user
+
+
+@pytest.mark.django_db
+def test_validate_key_expired(ticket, user, ws_auth_middleware, settings):
+    CHANNELS_WS_AUTH_EXPIRATION = getattr(
+        settings,
+        "CHANNELS_WS_AUTH_EXPIRATION",
+        app_settings.CHANNELS_WS_AUTH_EXPIRATION,
+    )
+    ticket.created = timezone.now() - timedelta(seconds=CHANNELS_WS_AUTH_EXPIRATION + 1)
+    ticket.save()
+    ticket_user = ws_auth_middleware.validate_key(key=ticket.key)
+    assert isinstance(ticket_user, AnonymousUser)
 
 
 def test_populate_scope(populated_scope):
