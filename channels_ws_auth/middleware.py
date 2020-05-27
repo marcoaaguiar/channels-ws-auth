@@ -1,7 +1,6 @@
 import logging
 from urllib.parse import parse_qs
 
-from asgiref.sync import sync_to_async
 from channels.auth import UserLazyObject
 from channels.db import database_sync_to_async
 from channels.middleware import BaseMiddleware

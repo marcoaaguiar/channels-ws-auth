@@ -1,5 +1,7 @@
 * Django Channels WebSocket Authentication version:
 * Django version:
+* Channels version:
+* DRF version:
 * Python version:
 * Operating System:
 
