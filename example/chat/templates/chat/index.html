@@ -97,9 +97,8 @@
         }
         ws = new WebSocket(url);
         ws.onerror = function (e) {
-            console.log(e)
-            $("#chat-log").append(`-- Failed to connect to websocket --\n`);
-        }
+          $("#chat-log").append(`-- Failed to connect to websocket --\n`);
+        };
         ws.onmessage = function (e) {
           const data = JSON.parse(e.data);
           $("#chat-log").append(data.message + "\n");
@@ -114,7 +113,7 @@
         $.ajax({
           type: "POST",
           url: "/login/",
-            data: { username: "user", password: "password" },
+          data: { username: "user", password: "password" },
           success: function (data) {
             $("#logged-in").prop("checked", true);
             user_data = data;
@@ -132,7 +131,7 @@
             headers: { Authorization: `Token ${user_data.token}` },
             data: {},
             success: function (data) {
-              chatSocket = createWebsocket(data.key);
+              chatSocket = createWebsocket(data.ticket);
             },
             error: function (e) {
               $("#chat-log").append("-- Failed to get a ticket --\n");

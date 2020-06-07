@@ -1,23 +1,17 @@
-import time
 import uuid
 from datetime import timedelta
 
 import pytest
 from channels.auth import UserLazyObject
-from channels.db import database_sync_to_async
-from channels.generic.websocket import WebsocketConsumer
-from channels.testing import WebsocketCommunicator
 from django.contrib.auth.models import AnonymousUser
 from django.utils import timezone
 
 import channels_ws_auth.settings as app_settings
 from channels_ws_auth.middleware import WSAuthMiddleware
-from channels_ws_auth.models import WSAuthTicket
 
 
 @pytest.fixture
 def ws_auth_middleware():
-    scope = {}
     return WSAuthMiddleware(None)
 
 

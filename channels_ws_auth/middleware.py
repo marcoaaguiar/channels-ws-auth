@@ -27,7 +27,7 @@ class WSAuthMiddleware(BaseMiddleware):
 
     def validate_key(self, key: str):
         """
-            Return User if key is valid, return AnonymousUser otherwise.
+        Return User if key is valid, else return AnonymousUser.
         """
         if key is None:
             return AnonymousUser()
@@ -49,8 +49,8 @@ class WSAuthMiddleware(BaseMiddleware):
 
     def get_key_from_scope(self, scope):
         """
-            Return the key if it is in the query_string of the scope,
-            otherwise return None
+        Return the key if it is in the query_string of the scope,
+        otherwise return None
         """
         if "query_string" not in scope:
             return None

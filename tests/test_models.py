@@ -11,9 +11,7 @@ Tests for `channels-ws-auth` models module.
 from datetime import timedelta
 
 import pytest
-from django.contrib.auth import get_user_model
 from django.db import IntegrityError
-from django.test import TestCase
 from django.utils import timezone
 
 import channels_ws_auth.settings as app_settings
@@ -29,6 +27,8 @@ def test_require_user():
 @pytest.mark.django_db
 def test_user_is_only_required_field(user):
     ticket = WSAuthTicket.objects.create(user=user)
+    assert ticket.user == user
+    assert WSAuthTicket.objects.count() == 1
 
 
 @pytest.mark.django_db

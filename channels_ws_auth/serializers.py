@@ -4,12 +4,13 @@ from .models import WSAuthTicket
 
 class WSAuthTicketSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    key = serializers.UUIDField(
+    ticket = serializers.UUIDField(
         read_only=True,
         required=False,
-        help_text="Key to used to open WebSocket Connection",
+        source="key",
+        help_text="Ticket to be used to open a WebSocket Connection",
     )
 
     class Meta:
         model = WSAuthTicket
-        fields = ["user", "key"]
+        fields = ["user", "ticket"]
