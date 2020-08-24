@@ -16,10 +16,11 @@ Including another URLconf
 from django.conf.urls import include
 from django.contrib import admin
 from rest_framework.compat import path
+from rest_framework.authtoken.views import ObtainAuthToken
 
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("login/", ObtainAuthToken.as_view()),
     path("chat/", include("example.chat.urls")),
     path("ws-auth/", include("channels_ws_auth.urls", namespace="channels_ws_auth")),
 ]
